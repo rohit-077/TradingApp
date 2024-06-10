@@ -29,6 +29,7 @@ java.util.Scanner for user input.
 
 2. Class Definition and Variables:
 @ClientEndpoint
+```
 public class WazirXWebSocketClient {
     private static final String API_URL = "wss://stream.wazirx.com/stream";
     private static double triggerPrice;
@@ -37,7 +38,7 @@ public class WazirXWebSocketClient {
     private static final Logger logger = LoggerFactory.getLogger(WazirXWebSocketClient.class);
     private static Session userSession = null;
 }
-
+```
 The class WazirXWebSocketClient is annotated with @ClientEndpoint to indicate it is a WebSocket client endpoint.
 The static variables include:
 API_URL for the WebSocket API endpoint.
@@ -49,19 +50,20 @@ userSession to manage the WebSocket session.
 
 3. WebSocket Event Handlers:
 onOpen Method:
-
+```
 @OnOpen
 public void onOpen(Session session) {
     logger.info("Connected to WazirX WebSocket");
     userSession = session;
     session.getAsyncRemote().sendText("{\"event\":\"subscribe\",\"streams\":[\"btcinr@trade\"]}");
 }
+```
 Called when the WebSocket connection is opened.
 Logs the connection.
 Subscribes to the btcinr@trade stream for real-time trading data.
 
 onMessage Method:
-
+```
 @OnMessage
 public void onMessage(String message) {
     logger.info("Received: " + message);
@@ -72,32 +74,35 @@ public void onMessage(String message) {
         logger.warn("Received message without price: " + message);
     }
 }
+```
 Called when a message is received.
 Logs the received message.
 Extracts the price from the message and processes the market data.
 
 onError Method:
-
+```
 @OnError
 public void onError(Session session, Throwable throwable) {
     logger.error("Error: ", throwable);
 }
+```
 Called when an error occurs.
 Logs the error.
 
 onClose Method:
-
+```
 @OnClose
 public void onClose(Session session, CloseReason closeReason) {
     logger.info("Connection closed: " + closeReason.getReasonPhrase());
 }
+```
 Called when the WebSocket connection is closed.
 Logs the reason for closing.
 
 
 4. Helper Methods
 extractPriceFromMessage Method:
-
+```
 private double extractPriceFromMessage(String message) {
     JSONObject jsonObject = new JSONObject(message);
     if (!jsonObject.has("data") || !jsonObject.getJSONObject("data").has("price")) {
@@ -106,11 +111,12 @@ private double extractPriceFromMessage(String message) {
     String priceString = jsonObject.getJSONObject("data").getString("price");
     return Double.parseDouble(priceString);
 }
+```
 Parses the JSON message to extract the price.
 Throws an exception if the price is not found.
 
 processMarketData Method:
-
+```
 private void processMarketData(double marketPrice) {
     if (!isBuyOrderPlaced && marketPrice <= triggerPrice) {
         String buyOrderPayload = prepareBuyOrderPayload(marketPrice);
@@ -122,11 +128,12 @@ private void processMarketData(double marketPrice) {
         isSellOrderPlaced = true;
     }
 }
+```
 Processes market data to determine if a buy or sell order should be placed based on the trigger price.
 Prepares the respective order payload and marks the order as placed.
 
 prepareBuyOrderPayload and prepareSellOrderPayload Methods:
-
+```
 private String prepareBuyOrderPayload(double price) {
     return String.format("{\"type\":\"buy\",\"price\":%.2f}", price);
 }
@@ -134,18 +141,20 @@ private String prepareBuyOrderPayload(double price) {
 private String prepareSellOrderPayload(double price) {
     return String.format("{\"type\":\"sell\",\"price\":%.2f}", price);
 }
+```
 Formats JSON payloads for buy and sell orders with the given price.
 
 prepareCancelOrderPayload Method:
-
+```
 private String prepareCancelOrderPayload(String orderId) {
     return String.format("{\"type\":\"cancel\",\"orderId\":\"%s\"}", orderId);
 }
+```
 Formats JSON payload for canceling an order with the given order ID.
 
 
 5. Main Method:
-
+```
 public static void main(String[] args) {
     Scanner scanner = new Scanner(System.in);
     System.out.println("Enter trigger price:");
@@ -176,6 +185,7 @@ public static void main(String[] args) {
         logger.error("Error closing WebSocket session: ", e);
     }
 }
+```
 Prompts the user to enter a trigger price.
 Connects to the WazirX WebSocket API.
 Listens for user commands, allowing the user to quit the application.
