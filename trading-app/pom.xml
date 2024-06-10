@@ -79,8 +79,6 @@
 
 </dependencies>
 
-
-  <!--for package and deploy-->
   <build>
     <plugins>
       <plugin>
