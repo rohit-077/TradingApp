@@ -20,10 +20,15 @@ import java.util.Scanner;
 
 The package com.websocket_wazirx.trading_app organizes the code.
 Necessary imports are included:
+
 javax.websocket.* for WebSocket support.
+
 org.json.* for JSON parsing.
+
 org.slf4j.* for logging.
+
 java.net.URI for WebSocket URI.
+
 java.util.Scanner for user input.
 
 
