@@ -7,6 +7,7 @@ The program uses the Java WebSocket API to establish a connection and handle mes
 
 1. Package and Imports:
 
+'''
 package com.websocket_wazirx.trading_app;
 import javax.websocket.*;
 import org.json.JSONException;
@@ -15,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.net.URI;
 import java.util.Scanner;
+'''
 
 The package com.websocket_wazirx.trading_app organizes the code.
 Necessary imports are included:
